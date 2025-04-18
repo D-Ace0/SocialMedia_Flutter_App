@@ -3,9 +3,10 @@ import 'package:socialmediaapp/widgets/my_button.dart';
 import 'package:socialmediaapp/widgets/my_textfield.dart';
 
 class LoginPage extends StatelessWidget {
+  final void Function()? onTap;
+  LoginPage({super.key, required this.onTap});
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,7 @@ class LoginPage extends StatelessWidget {
 
               // password textfield
               MyTextfield(
-                controller: emailController,
+                controller: passwordController,
                 obsecure: true,
                 hint: "Password",
               ),
@@ -60,8 +61,27 @@ class LoginPage extends StatelessWidget {
 
               // signin button
               MyButton(text: "Sign In", onTap: () {}),
+              const SizedBox(height: 24),
 
               // don't havce account, regsiter
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Don't have an account? ",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: onTap,
+                    child: Text(
+                      "Register Now",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

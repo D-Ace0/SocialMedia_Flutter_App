@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:socialmediaapp/pages/login_page.dart';
+import 'package:socialmediaapp/auth/login_or_register.dart';
 import 'package:socialmediaapp/theme/dark_mode.dart';
 import 'package:socialmediaapp/theme/light_mode.dart';
 
@@ -15,9 +15,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: LoginPage(),
-      theme: darkMode,
-      darkTheme: lightMode,
+      home: LoginOrRegister(),
+      theme: lightMode,
+      darkTheme: darkMode,
     );
   }
 }
