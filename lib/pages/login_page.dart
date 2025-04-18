@@ -1,12 +1,44 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:socialmediaapp/helper_functions/helper_functions.dart';
 import 'package:socialmediaapp/widgets/my_button.dart';
 import 'package:socialmediaapp/widgets/my_textfield.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   final void Function()? onTap;
-  LoginPage({super.key, required this.onTap});
+  const LoginPage({super.key, required this.onTap});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
+
   TextEditingController passwordController = TextEditingController();
+
+  void signInMethod() async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(color: Colors.white),
+        );
+      },
+    );
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+      displayMessage(context, e.code);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +92,7 @@ class LoginPage extends StatelessWidget {
               const SizedBox(height: 10),
 
               // signin button
-              MyButton(text: "Sign In", onTap: () {}),
+              MyButton(text: "Sign In", onTap: signInMethod),
               const SizedBox(height: 24),
 
               // don't havce account, regsiter
@@ -74,7 +106,7 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                   GestureDetector(
-                    onTap: onTap,
+                    onTap: widget.onTap,
                     child: Text(
                       "Register Now",
                       style: TextStyle(fontWeight: FontWeight.bold),
